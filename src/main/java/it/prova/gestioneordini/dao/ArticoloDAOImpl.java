@@ -12,31 +12,38 @@ public class ArticoloDAOImpl implements ArticoloDAO {
 
 	@Override
 	public List<Articolo> list() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return entityManager.createQuery("from Articolo", Articolo.class).getResultList();
 	}
 
 	@Override
 	public Articolo get(Long id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return entityManager.find(Articolo.class, id);
 	}
 
 	@Override
-	public void update(Articolo o) throws Exception {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void insert(Articolo o) throws Exception {
-		// TODO Auto-generated method stub
+	public void update(Articolo articoloDaAggiornare) throws Exception {
+		if (articoloDaAggiornare == null) {
+			throw new Exception("Problema valore in input");
+		}
+		articoloDaAggiornare = entityManager.merge(articoloDaAggiornare);
 
 	}
 
 	@Override
-	public void delete(Articolo o) throws Exception {
-		// TODO Auto-generated method stub
+	public void insert(Articolo articoloDaInserire) throws Exception {
+		if (articoloDaInserire == null) {
+			throw new Exception("Problema valore in input");
+		}
+		entityManager.persist(articoloDaInserire);
+
+	}
+
+	@Override
+	public void delete(Articolo articoloDaRimuovere) throws Exception {
+		if (articoloDaRimuovere == null) {
+			throw new Exception("Problema valore in input");
+		}
+		entityManager.remove(articoloDaRimuovere);
 
 	}
 
