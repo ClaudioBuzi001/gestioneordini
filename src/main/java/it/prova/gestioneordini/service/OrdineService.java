@@ -31,5 +31,7 @@ public interface OrdineService {
 	//TODO
 	//Trova ordine con data piu vicina
 	public Ordine trovaOrdineConDataSpedizionePiuVicinaDataCategoria(Categoria categoria) throws Exception;
+	
+	public List<String> trovaIndirizzoOrdineContenente(String numeroSeriale) throws Exception;
 
 }

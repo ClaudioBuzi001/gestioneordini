@@ -51,10 +51,10 @@ public class TestGestioneOrdine {
 
 			testTrovaOrdineConDataSpedizionePiuVicinaDataCategoria(articoloServiceInstance, categoriaServiceInstance,
 					ordineServiceInstance);
+
+			testTrovaCodiciByFebbraio(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
 			
-			
-			testTrovaCodiciByFebbraio(articoloServiceInstance, categoriaServiceInstance,
-					ordineServiceInstance);
+			testPrezziArticoliDiMarioRossi(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
 
 		} catch (Exception e) {
 
@@ -254,9 +254,9 @@ public class TestGestioneOrdine {
 
 	private static void testTrovaCodiciByFebbraio(ArticoloService articolo, CategoriaService categoria,
 			OrdineService ordine) throws Exception {
-		
+
 		System.out.println("testTrovaCodiciByFebbraio");
-		
+
 		Ordine ordineDaInserire = new Ordine("Lucia", "Via Dal Paparazzo",
 				new SimpleDateFormat("dd-MM-yyyy").parse("10-02-2022"));
 
@@ -270,22 +270,19 @@ public class TestGestioneOrdine {
 		daInserire.setNumeroSeriale("LUCIA");
 		daInserire.setDescrizione("BUZI");
 
-
 		// Collego alla categoria gli articoli
-		
-		
+
 		categoria.inserisciNuovo(categoriaInstance);
 		daInserire.setOrdine(ordineDaInserire);
 		articolo.inserisci(daInserire);
 
 		categoria.aggiungiArticolo(categoriaInstance, daInserire);
 		articolo.aggiungiCategoria(daInserire, categoriaInstance);
-		System.out.println(
-				categoria.trovaCodiciMeseFebbraio());
-		
+		System.out.println(categoria.trovaCodiciMeseFebbraio());
+
 		System.out.println("testTrovaCodiciByFebbraio");
-		
-		//FIXME
+
+		// FIXME
 
 //		 
 //			System.out.println(
@@ -317,6 +314,35 @@ public class TestGestioneOrdine {
 //			System.out.println(
 //					".......testCercaTuttiICodiciDiCategorieDiOrdiniEffettuatiAFebbraioDuemilaventidue fine: PASSED.............");
 //		}
+
+	}
+
+	private static void testPrezziArticoliDiMarioRossi(ArticoloService articolo, CategoriaService categoria,
+			OrdineService ordine) throws Exception {
+		System.out.println("testPrezziArticoliDiMarioRossi");
+
+		Ordine ordineDaInserire = new Ordine("Mario Rossi", "Via sara",
+				new SimpleDateFormat("dd-MM-yyyy").parse("10-02-2022"));
+
+		ordine.inserisciNuovo(ordineDaInserire);
+
+		// Collego agli articoli la categoria
+		Articolo daInserire = new Articolo();
+		daInserire.setNumeroSeriale("LUCIA");
+		daInserire.setDescrizione("BUZI");
+		daInserire.setPrezzoSingolo(300);
+
+		// Collego alla categoria gli articoli
+
+		
+		daInserire.setOrdine(ordineDaInserire);
+		articolo.inserisci(daInserire);
+
+	
+		
+		System.out.println(articolo.prendiSommaDiMarioRossi());
+
+		System.out.println("testPrezziArticoliDiMarioRossi");
 
 	}
 

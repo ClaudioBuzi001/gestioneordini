@@ -31,4 +31,6 @@ public interface ArticoloService {
 	
 	public Integer prendiSommaDataCategoria(Categoria categoria) throws Exception;
 	
+	public Long prendiSommaDiMarioRossi() throws Exception;
+	
 }

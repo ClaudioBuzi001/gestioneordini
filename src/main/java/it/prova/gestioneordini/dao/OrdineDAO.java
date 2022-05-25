@@ -17,5 +17,7 @@ public interface OrdineDAO extends IBaseDAO<Ordine>{
 	
 	//voglko il piu recente ordine in temrini di spedizione relativo ad una categoria data in input
 	public Ordine findOrdineConSpedizionePiuRecenteByCategoria(Categoria categoria) throws Exception;
-
+	
+	//Voglio la lista distinta di indirizzi di ordini che contengano una determinata stringa nel numero seriale dei relativi articoli
+	public List<String> getIndirizziSpedizioneDistinti(String numeroSeriale) throws Exception;
 }

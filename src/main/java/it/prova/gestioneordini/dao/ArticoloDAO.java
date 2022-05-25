@@ -14,4 +14,7 @@ public interface ArticoloDAO extends IBaseDAO<Articolo> {
 	//voglio la somma totale di tutti i prezzi degli articoli legati ad una data categoria (Categoria)
 	public Integer getSommaByCategoria(Categoria categoria) throws Exception;
 
+	//Voglio la somma totale dei prezzi di tutti gli articoli indirizzati a Mario Rossi  
+	public Long sommaPrezziDiArticoliIndirizzatiAMarioRossi() throws Exception;
+	
 }
