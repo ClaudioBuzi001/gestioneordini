@@ -42,7 +42,7 @@ public class Ordine {
 	private LocalDateTime updateDateTime;
 
 //	Set<Articoli>
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "articolo")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ordine")
 	private Set<Articolo> articoli;
 
 	public Ordine(long id, String nomeDestinatario, String indirizzoSpedizione, Date dataSpedizione,

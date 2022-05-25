@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 
 import it.prova.gestioneordini.dao.ArticoloDAO;
 import it.prova.gestioneordini.dao.EntityManagerUtil;
+import it.prova.gestioneordini.exception.ExceptionCategorieAssociateAdArticolo;
 import it.prova.gestioneordini.model.Articolo;
 
 public class ArticoloServiceImpl implements ArticoloService {
@@ -105,14 +106,20 @@ public class ArticoloServiceImpl implements ArticoloService {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
 		try {
+
 			// questo è come il MyConnection.getConnection()
 			entityManager.getTransaction().begin();
-
 			// uso l'injection per il dao
 			articoloDAO.setEntityManager(entityManager);
+			// FIXME Implementare il eager
+			Articolo daRimovere = articoloDAO.findByIdFetchingCategorie(idArticoloDaRimovere);
+
+			if (daRimovere.getCategorie().size() > 0)
+				throw new ExceptionCategorieAssociateAdArticolo(
+						"ERRORE: ci sono ancora categorie associate a l articolo");
 
 			// eseguo quello che realmente devo fare
-			articoloDAO.delete(articoloDAO.get(idArticoloDaRimovere));
+			articoloDAO.delete(daRimovere);
 
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {

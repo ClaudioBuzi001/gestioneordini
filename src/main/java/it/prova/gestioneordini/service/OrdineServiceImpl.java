@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 
 import it.prova.gestioneordini.dao.EntityManagerUtil;
 import it.prova.gestioneordini.dao.OrdineDAO;
+import it.prova.gestioneordini.exception.ExceptionArticoliAssociatiAdOrdine;
 import it.prova.gestioneordini.model.Ordine;
 
 public class OrdineServiceImpl implements OrdineService {
@@ -108,18 +109,23 @@ public class OrdineServiceImpl implements OrdineService {
 	}
 
 	@Override
-	public void rimuovi(Long idGenere) throws Exception {
+	public void rimuovi(Long idOrdine) throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
 		try {
+			//TODO FARE IL METODO SERVICE CON EAGER
+
 			// questo è come il MyConnection.getConnection()
 			entityManager.getTransaction().begin();
-
 			// uso l'injection per il dao
 			ordineDAO.setEntityManager(entityManager);
-
+			//FIXME Aggiungere controllo eager su articoli
+			Ordine daRimovere = ordineDAO.findByIdFetchingArticoli(idOrdine);
+			
+			if(daRimovere.getArticoli().size() > 0)
+				throw new ExceptionArticoliAssociatiAdOrdine("ERRORE: Articoli ancora associati ad ordine");
 			// eseguo quello che realmente devo fare
-			ordineDAO.delete(ordineDAO.get(idGenere));
+			ordineDAO.delete(daRimovere);
 
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {

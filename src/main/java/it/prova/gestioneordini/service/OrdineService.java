@@ -17,6 +17,6 @@ public interface OrdineService {
 
 	public void inserisciNuovo(Ordine ordineInstance) throws Exception;
 
-	public void rimuovi(Long idGenere) throws Exception;
+	public void rimuovi(Long idOrdine) throws Exception;
 
 }

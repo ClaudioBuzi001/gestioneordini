@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 
 import it.prova.gestioneordini.dao.CategoriaDAO;
 import it.prova.gestioneordini.dao.EntityManagerUtil;
+import it.prova.gestioneordini.exception.ExceptionArticoliAssociatiAdCategoria;
 import it.prova.gestioneordini.model.Categoria;
 
 public class CategoriaServiceImpl implements CategoriaService {
@@ -104,14 +105,20 @@ public class CategoriaServiceImpl implements CategoriaService {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
 		try {
+			// TODO FARE IL METODO SERVICE CON EAGER
+
 			// questo è come il MyConnection.getConnection()
 			entityManager.getTransaction().begin();
-
 			// uso l'injection per il dao
 			categoriaDAO.setEntityManager(entityManager);
+			// FIXME aggiungere controll0 con eager
+			Categoria daRimovere = categoriaDAO.findByIdFetchingArticoli(idCategoriaDaRimuovere);
+
+			if (daRimovere.getArticoli().size() > 0)
+				throw new ExceptionArticoliAssociatiAdCategoria("ERRORE: Articoli associati alla categoria");
 
 			// eseguo quello che realmente devo fare
-			categoriaDAO.delete(categoriaDAO.get(idCategoriaDaRimuovere));
+			categoriaDAO.delete(daRimovere);
 
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
