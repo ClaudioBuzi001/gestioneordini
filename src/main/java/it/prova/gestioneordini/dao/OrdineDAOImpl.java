@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import it.prova.gestioneordini.model.Categoria;
 import it.prova.gestioneordini.model.Ordine;
 
 public class OrdineDAOImpl implements OrdineDAO {
@@ -62,4 +63,22 @@ public class OrdineDAOImpl implements OrdineDAO {
 		return query.getResultList().stream().findFirst().orElse(null);
 	}
 
+	@Override
+	public List<Ordine> findAllByCategoria(Categoria categoriaInstance) {
+		TypedQuery<Ordine> query = entityManager.createQuery("select o from Ordine o join o.articoli a join a.categorie c where c = :cat", Ordine.class);
+		query.setParameter("cat", categoriaInstance);
+		return query.getResultList();
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
