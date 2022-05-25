@@ -65,8 +65,8 @@ public class OrdineDAOImpl implements OrdineDAO {
 
 	@Override
 	public List<Ordine> findAllByCategoria(Categoria categoriaInstance) {
-		TypedQuery<Ordine> query = entityManager.createQuery("select o from Ordine o join o.articoli a join a.categorie c where c = :cat", Ordine.class);
-		query.setParameter("cat", categoriaInstance);
+		TypedQuery<Ordine> query = entityManager.createQuery("select o from Ordine o join o.articoli a join a.categorie c where c.id = :cat", Ordine.class);
+		query.setParameter("cat", categoriaInstance.getId());
 		return query.getResultList();
 	}
 

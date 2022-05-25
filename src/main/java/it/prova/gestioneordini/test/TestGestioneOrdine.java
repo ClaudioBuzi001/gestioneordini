@@ -40,6 +40,8 @@ public class TestGestioneOrdine {
 			
 			testtrovaTuttiOrdiniDataCategoria(ordineServiceInstance, categoriaServiceInstance);
 			
+			testTrovaTutteCategorieDatoOrdine(ordineServiceInstance, categoriaServiceInstance);
+			
 
 		} catch (Exception e) {
 
@@ -177,4 +179,25 @@ public class TestGestioneOrdine {
 
 	}
 
+	private static void testTrovaTutteCategorieDatoOrdine(OrdineService ordine, CategoriaService categoria) throws Exception {
+		System.out.println("-----------testTrovaTutteCategorieDatoOrdine inizio----_");
+
+		// Mi predno un ordine e collego i due
+		Ordine daTrovare = ordine.caricaSingoloElemento(2L);
+		// Mi creo un nuovo articolo e lo inserisco
+		
+
+		// Mi predno un ordine e collego i due
+		List<Categoria> result = categoria.trovaTutteDisinteDatoOrdine(daTrovare);
+		
+		if(result.size() == 0)
+			throw new RuntimeException("ERRORE");
+		for(Categoria categoriaItem : result)
+			System.out.println(categoriaItem.getDescrizione());
+
+		System.out.println("-----------testTrovaTutteCategorieDatoOrdine PASSED----_");
+
+	}
+	
+	
 }
