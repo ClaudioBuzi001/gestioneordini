@@ -55,6 +55,9 @@ public class TestGestioneOrdine {
 			testTrovaCodiciByFebbraio(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
 			
 			testPrezziArticoliDiMarioRossi(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
+			
+			testTrovaIndirizzoDiOrdineConArticoliCodice(articoloServiceInstance, categoriaServiceInstance,
+					ordineServiceInstance);
 
 		} catch (Exception e) {
 
@@ -346,4 +349,32 @@ public class TestGestioneOrdine {
 
 	}
 
+	private static void testTrovaIndirizzoDiOrdineConArticoliCodice(ArticoloService articolo, CategoriaService categoria,
+			OrdineService ordine) throws Exception {
+		System.out.println("testTrovaIndirizzoDiOrdineConArticoliCodice");
+
+		Ordine ordineDaInserire = new Ordine("Giurgio", "Via sara 112",
+				new SimpleDateFormat("dd-MM-yyyy").parse("10-02-2022"));
+		
+		ordine.inserisciNuovo(ordineDaInserire);
+
+		// Collego agli articoli la categoria
+		Articolo daInserire = new Articolo();
+		daInserire.setNumeroSeriale("ahclhSaverionjchaj");
+		daInserire.setDescrizione("BUZI");
+		daInserire.setPrezzoSingolo(300);
+
+		// Collego alla categoria gli articoli
+
+		
+		daInserire.setOrdine(ordineDaInserire);
+		articolo.inserisci(daInserire);
+
+	
+		
+		System.out.println(ordine.trovaIndirizzoOrdineContenente("Saverion"));
+
+		System.out.println("testTrovaIndirizzoDiOrdineConArticoliCodice PASSED" );
+
+	}
 }

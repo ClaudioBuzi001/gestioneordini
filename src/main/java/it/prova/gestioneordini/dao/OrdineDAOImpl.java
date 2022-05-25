@@ -97,8 +97,8 @@ public class OrdineDAOImpl implements OrdineDAO {
 
 	@Override
 	public List<String> getIndirizziSpedizioneDistinti(String numeroSeriale) throws Exception {
-		TypedQuery<String> query = entityManager.createQuery("select distinct o.indirizziSpedizione from Ordine o join o.articoli a where a.numeroSeriale like '%:numSer%'", String.class);
-		query.setParameter("numSer", numeroSeriale);
+		TypedQuery<String> query = entityManager.createQuery("select distinct o.indirizzoSpedizione from Ordine o join o.articoli a where a.numeroSeriale like ?1", String.class);
+		query.setParameter(1, '%'+numeroSeriale+'%');
 		return query.getResultList();
 	}
 
