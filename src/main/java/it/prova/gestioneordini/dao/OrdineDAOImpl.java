@@ -77,7 +77,7 @@ public class OrdineDAOImpl implements OrdineDAO {
 
 	@Override
 	public Ordine findOrdineConSpedizionePiuRecenteByCategoria(Categoria categoria) throws Exception {
-		TypedQuery<Ordine> query = entityManager.createQuery(
+		TypedQuery<Ordine> query = entityManager.createQuery( //TODO USARE MAX
 				"select o from Ordine o join o.articoli a join a.categorie c where c.id = :idC", Ordine.class);
 		query.setParameter("idC", categoria.getId());
 
@@ -88,7 +88,7 @@ public class OrdineDAOImpl implements OrdineDAO {
 		for (Ordine ordineItem : result) {
 			if (ordineItem.getDataSpedizione().after(confronto))
 				confronto = ordineItem.getDataSpedizione();
-			resultFinale = ordineItem;
+				resultFinale = ordineItem;
 
 		}
 		return resultFinale;

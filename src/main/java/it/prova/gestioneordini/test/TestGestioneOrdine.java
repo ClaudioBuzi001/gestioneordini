@@ -1,6 +1,5 @@
 package it.prova.gestioneordini.test;
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -38,17 +37,24 @@ public class TestGestioneOrdine {
 			// testRimuoviArticoloAOrdine(articoloServiceInstance,ordineServiceInstance);
 
 			// testAggiungiArticoloACategoria(articoloServiceInstance,categoriaServiceInstance);
-			//testAggiungiCategoriaAArticolo(articoloServiceInstance, categoriaServiceInstance);
+			// testAggiungiCategoriaAArticolo(articoloServiceInstance,
+			// categoriaServiceInstance);
+
+			// testtrovaTuttiOrdiniDataCategoria(ordineServiceInstance,
+			// categoriaServiceInstance);
+
+			// testTrovaTutteCategorieDatoOrdine(ordineServiceInstance,
+			// categoriaServiceInstance);
+
+			testTrovaSommaArticoliDataCategoria(articoloServiceInstance, categoriaServiceInstance,
+					ordineServiceInstance);
+
+			testTrovaOrdineConDataSpedizionePiuVicinaDataCategoria(articoloServiceInstance, categoriaServiceInstance,
+					ordineServiceInstance);
 			
-			//testtrovaTuttiOrdiniDataCategoria(ordineServiceInstance, categoriaServiceInstance);
 			
-			//testTrovaTutteCategorieDatoOrdine(ordineServiceInstance, categoriaServiceInstance);
-			
-			testTrovaSommaArticoliDataCategoria(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
-			
-			testTrovaOrdineConDataSpedizionePiuVicinaDataCategoria(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
-			
-			
+			testTrovaCodiciByFebbraio(articoloServiceInstance, categoriaServiceInstance,
+					ordineServiceInstance);
 
 		} catch (Exception e) {
 
@@ -166,87 +172,152 @@ public class TestGestioneOrdine {
 
 	// TODO TEST RIMUOVI
 
-	private static void testtrovaTuttiOrdiniDataCategoria(OrdineService ordine, CategoriaService categoria) throws Exception {
+	private static void testtrovaTuttiOrdiniDataCategoria(OrdineService ordine, CategoriaService categoria)
+			throws Exception {
 		System.out.println("-----------testtrovaTuttiOrdiniDataCategoria PASSED----_");
 
 		// Mi predno un ordine e collego i due
 		Categoria daCollegare = categoria.caricaSingoloElemento(2L);
 		// Mi creo un nuovo articolo e lo inserisco
-		
 
 		// Mi predno un ordine e collego i due
 		List<Ordine> result = ordine.trovaTuttiDataCategoria(daCollegare);
-		
-		if(result.size() == 0)
+
+		if (result.size() == 0)
 			throw new RuntimeException("ERRORE");
-		for(Ordine ordineItem : result)
+		for (Ordine ordineItem : result)
 			System.out.println(ordineItem.getIndirizzoSpedizione());
 
 		System.out.println("-----------testtrovaTuttiOrdiniDataCategoria PASSED----_");
 
 	}
 
-	private static void testTrovaTutteCategorieDatoOrdine(OrdineService ordine, CategoriaService categoria) throws Exception {
+	private static void testTrovaTutteCategorieDatoOrdine(OrdineService ordine, CategoriaService categoria)
+			throws Exception {
 		System.out.println("-----------testTrovaTutteCategorieDatoOrdine inizio----_");
 
 		// Mi predno un ordine e collego i due
 		Ordine daTrovare = ordine.caricaSingoloElemento(2L);
 		// Mi creo un nuovo articolo e lo inserisco
-		
 
 		// Mi predno un ordine e collego i due
 		List<Categoria> result = categoria.trovaTutteDisinteDatoOrdine(daTrovare);
-		
-		if(result.size() == 0)
+
+		if (result.size() == 0)
 			throw new RuntimeException("ERRORE");
-		for(Categoria categoriaItem : result)
+		for (Categoria categoriaItem : result)
 			System.out.println(categoriaItem.getDescrizione());
 
 		System.out.println("-----------testTrovaTutteCategorieDatoOrdine PASSED----_");
 
 	}
-	
-	private static void testTrovaSommaArticoliDataCategoria(ArticoloService articolo, CategoriaService categoria, OrdineService ordine) throws Exception{
-		
+
+	private static void testTrovaSommaArticoliDataCategoria(ArticoloService articolo, CategoriaService categoria,
+			OrdineService ordine) throws Exception {
+
 		System.out.println("_------------testTrovaSommaArticoliDataCategoria------------_");
 		Ordine ordineDaInserire = new Ordine("Lucia", "Via Dal Paparazzo", null);
 		ordine.inserisciNuovo(ordineDaInserire);
-		
+
 		Articolo daInserire = new Articolo();
 		daInserire.setNumeroSeriale("HAIHU");
 		daInserire.setDescrizione("CARINO");
 		daInserire.setPrezzoSingolo(300);
 		daInserire.setOrdine(ordineDaInserire);
-		
-		
-		
-		//Chiamo mi creo categoria
+
+		// Chiamo mi creo categoria
 		Categoria daCollegare = new Categoria("PROVA", "ABZ");
-		
+
 		daInserire.getCategorie().add(daCollegare);
 		articolo.inserisci(daInserire);
-		//Colletgo cateogria a articolo
-		
+		// Colletgo cateogria a articolo
+
 		Integer result = articolo.prendiSommaDataCategoria(daCollegare);
 		System.out.println(result);
-		
+
 		System.out.println("_------------testTrovaSommaArticoliDataCategoria------------_ PASSED");
 	}
-	
-	private static void testTrovaOrdineConDataSpedizionePiuVicinaDataCategoria(ArticoloService articolo, CategoriaService categoria, OrdineService ordine) throws Exception {
+
+	private static void testTrovaOrdineConDataSpedizionePiuVicinaDataCategoria(ArticoloService articolo,
+			CategoriaService categoria, OrdineService ordine) throws Exception {
 		System.out.println("testTrovaOrdineConDataSpedizionePiuVicinaDataCategoria");
-		
+
 		Categoria daCercare = categoria.caricaSingoloElemento(24L);
-		
+
 		Ordine result = ordine.trovaOrdineConDataSpedizionePiuVicinaDataCategoria(daCercare);
-		
+
 		System.out.println(result);
-		
+
 		System.out.println("testTrovaOrdineConDataSpedizionePiuVicinaDataCategoria");
-		
-		
-	
-		
-	
+
 	}
+
+	private static void testTrovaCodiciByFebbraio(ArticoloService articolo, CategoriaService categoria,
+			OrdineService ordine) throws Exception {
+		
+		System.out.println("testTrovaCodiciByFebbraio");
+		
+		Ordine ordineDaInserire = new Ordine("Lucia", "Via Dal Paparazzo",
+				new SimpleDateFormat("dd-MM-yyyy").parse("10-02-2022"));
+
+		ordine.inserisciNuovo(ordineDaInserire);
+
+		// Creo la categoria
+		Categoria categoriaInstance = new Categoria("PPPPPOOOO", "Intrattenimento videoludico");
+
+		// Collego agli articoli la categoria
+		Articolo daInserire = new Articolo();
+		daInserire.setNumeroSeriale("LUCIA");
+		daInserire.setDescrizione("BUZI");
+
+
+		// Collego alla categoria gli articoli
+		
+		
+		categoria.inserisciNuovo(categoriaInstance);
+		daInserire.setOrdine(ordineDaInserire);
+		articolo.inserisci(daInserire);
+
+		categoria.aggiungiArticolo(categoriaInstance, daInserire);
+		articolo.aggiungiCategoria(daInserire, categoriaInstance);
+		System.out.println(
+				categoria.trovaCodiciMeseFebbraio());
+		
+		System.out.println("testTrovaCodiciByFebbraio");
+		
+		//FIXME
+
+//		 
+//			System.out.println(
+//					".......testCercaTuttiICodiciDiCategorieDiOrdiniEffettuatiAFebbraioDuemilaventidue inizio.............");
+//
+//			// Creo ordine
+//			Date dataPubblicazioneOrdine = new SimpleDateFormat("dd/MM/yyyy").parse("26/02/2022");
+//
+//			Ordine ordineInstance = new Ordine("Carlo Baronetti", "Perugia - Via Firenze, 22", dataPubblicazioneOrdine);
+//			ordineServiceInstance.inserisciNuovo(ordineInstance);
+//
+//			// Creo la categoria
+//			Categoria categoriaInstance = new Categoria("PPPPPOOOO", "Intrattenimento videoludico");
+//
+//			// Creo il mio articolo
+//			Date dataInserimentoArticolo = new SimpleDateFormat("dd/MM/yyyy").parse("10/02/2022");
+//			Articolo articoloDaAggiungere = new Articolo("Videogioco sparatutto", "NVKDM88", 80, dataInserimentoArticolo);
+//
+//			categoriaServiceInstance.inserisciNuovo(categoriaInstance);
+//			articoloDaAggiungere.setOrdine(ordineInstance);
+//			articoloServiceInstance.inserisciNuovo(articoloDaAggiungere);
+//
+//			// collego
+//			categoriaServiceInstance.aggiungiArticolo(categoriaInstance, articoloDaAggiungere);
+//
+//			System.out.println(
+//					categoriaServiceInstance.cercaTuttiICodiciDiCategorieDiOrdiniEffettuatiAFebbraioDuemilaventidue());
+//
+//			System.out.println(
+//					".......testCercaTuttiICodiciDiCategorieDiOrdiniEffettuatiAFebbraioDuemilaventidue fine: PASSED.............");
+//		}
+
+	}
+
 }

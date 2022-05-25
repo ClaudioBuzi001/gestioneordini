@@ -14,5 +14,8 @@ public interface CategoriaDAO extends IBaseDAO<Categoria> {
 	
 	//-voglio tutte le categorie distinte degli articoli dato un determinato ordine 
 	public List<Categoria> findAllDistinctByOrdine(Ordine ordine) throws Exception;
+	
+	//Voglio la lista distinta di codici di categorie di ordini effettuati a febbraio di quest’anno
+	public List<String> findCodiciByMese() throws Exception;
 
 }
