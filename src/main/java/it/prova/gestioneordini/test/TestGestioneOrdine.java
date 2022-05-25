@@ -2,6 +2,7 @@ package it.prova.gestioneordini.test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import it.prova.gestioneordini.dao.EntityManagerUtil;
@@ -53,9 +54,9 @@ public class TestGestioneOrdine {
 					ordineServiceInstance);
 
 			testTrovaCodiciByFebbraio(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
-			
+
 			testPrezziArticoliDiMarioRossi(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
-			
+
 			testTrovaIndirizzoDiOrdineConArticoliCodice(articoloServiceInstance, categoriaServiceInstance,
 					ordineServiceInstance);
 
@@ -115,8 +116,6 @@ public class TestGestioneOrdine {
 			throw new RuntimeException("ERRORE ARTICOLO NON ISERITO");
 
 		// Mi predno un ordine e collego i due
-
-		ordineService.aggiungiArticolo(daCollegare, daInserire);
 
 		System.out.println("-----------testAggiungiArticoloAOrdine PASSED----_");
 
@@ -241,19 +240,50 @@ public class TestGestioneOrdine {
 		System.out.println("_------------testTrovaSommaArticoliDataCategoria------------_ PASSED");
 	}
 
-	private static void testTrovaOrdineConDataSpedizionePiuVicinaDataCategoria(ArticoloService articolo,
-			CategoriaService categoria, OrdineService ordine) throws Exception {
-		System.out.println("testTrovaOrdineConDataSpedizionePiuVicinaDataCategoria");
+	private static void testTrovaOrdineConDataSpedizionePiuVicinaDataCategoria(ArticoloService articoloServiceInstance,
+			CategoriaService categoriaServiceInstance, OrdineService ordineServiceInstance) throws Exception {
 
-		Categoria daCercare = categoria.caricaSingoloElemento(24L);
+		System.out.println("_--------------testTrovaOrdini----------_");
+		Categoria categoria = new Categoria("Macchinetta Del caffe", "CAFF02");
+		categoriaServiceInstance.inserisciNuovo(categoria);
 
-		Ordine result = ordine.trovaOrdineConDataSpedizionePiuVicinaDataCategoria(daCercare);
+		
 
-		System.out.println(result);
+		Date dataSpedizione = new SimpleDateFormat("dd-MM-yyyy").parse("23-05-2022");
+		Ordine ordineInstance = new Ordine("carlo forsi", "via Del Corso, 14", dataSpedizione);
+		ordineServiceInstance.inserisciNuovo(ordineInstance);
 
-		System.out.println("testTrovaOrdineConDataSpedizionePiuVicinaDataCategoria");
+		
+		Articolo articolo1 = new Articolo();
+		articolo1.setDescrizione("hgfvakhh");
+		articolo1.setDataInserimento(new SimpleDateFormat("dd-MM-yyyy").parse("14-10-2020"));
+		
+		articolo1.setOrdine(ordineInstance);
+		articoloServiceInstance.inserisci(articolo1);
 
+		articoloServiceInstance.aggiungiCategoria(articolo1, categoria);
+
+		Date dataSpedizione1 = new SimpleDateFormat("dd-MM-yyyy").parse("24-05-2022");
+		Ordine ordineInstance1 = new Ordine("carlo forsi", "via Del Corso, 14", dataSpedizione);
+		ordineServiceInstance.inserisciNuovo(ordineInstance1);
+
+	
+		Articolo articolo2 = new Articolo();
+		
+		
+		articolo2.setOrdine(ordineInstance1);
+		articoloServiceInstance.inserisci(articolo2);
+
+		articoloServiceInstance.aggiungiCategoria(articolo2, categoria);
+
+		Ordine ordineConDataSpedPiùRecente = ordineServiceInstance.trovaOrdineConDataSpedizionePiuVicinaDataCategoria(categoria);
+
+		System.out.println(ordineConDataSpedPiùRecente.getNomeDestinatario());
+
+		System.out.println("...........testOrdineConDataSpedizionePiùRecente PASSED.....");
 	}
+
+	
 
 	private static void testTrovaCodiciByFebbraio(ArticoloService articolo, CategoriaService categoria,
 			OrdineService ordine) throws Exception {
@@ -337,25 +367,22 @@ public class TestGestioneOrdine {
 
 		// Collego alla categoria gli articoli
 
-		
 		daInserire.setOrdine(ordineDaInserire);
 		articolo.inserisci(daInserire);
 
-	
-		
 		System.out.println(articolo.prendiSommaDiMarioRossi());
 
 		System.out.println("testPrezziArticoliDiMarioRossi");
 
 	}
 
-	private static void testTrovaIndirizzoDiOrdineConArticoliCodice(ArticoloService articolo, CategoriaService categoria,
-			OrdineService ordine) throws Exception {
+	private static void testTrovaIndirizzoDiOrdineConArticoliCodice(ArticoloService articolo,
+			CategoriaService categoria, OrdineService ordine) throws Exception {
 		System.out.println("testTrovaIndirizzoDiOrdineConArticoliCodice");
 
 		Ordine ordineDaInserire = new Ordine("Giurgio", "Via sara 112",
 				new SimpleDateFormat("dd-MM-yyyy").parse("10-02-2022"));
-		
+
 		ordine.inserisciNuovo(ordineDaInserire);
 
 		// Collego agli articoli la categoria
@@ -366,15 +393,12 @@ public class TestGestioneOrdine {
 
 		// Collego alla categoria gli articoli
 
-		
 		daInserire.setOrdine(ordineDaInserire);
 		articolo.inserisci(daInserire);
 
-	
-		
 		System.out.println(ordine.trovaIndirizzoOrdineContenente("Saverion"));
 
-		System.out.println("testTrovaIndirizzoDiOrdineConArticoliCodice PASSED" );
+		System.out.println("testTrovaIndirizzoDiOrdineConArticoliCodice PASSED");
 
 	}
 }

@@ -125,6 +125,8 @@ public class Articolo {
 		this.ordine = ordine;
 	}
 
+	
+
 	public long getId() {
 		return id;
 	}
