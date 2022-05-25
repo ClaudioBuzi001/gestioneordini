@@ -33,8 +33,8 @@ public class TestGestioneOrdine {
 			
 			//testRimuoviArticoloAOrdine(articoloServiceInstance,ordineServiceInstance);
 			
-			testAggiungiArticoloACategoria(articoloServiceInstance,categoriaServiceInstance);
-			
+			//testAggiungiArticoloACategoria(articoloServiceInstance,categoriaServiceInstance);
+			testAggiungiCategoriaAArticolo(articoloServiceInstance, categoriaServiceInstance);
 		
 		
 		
@@ -148,6 +148,26 @@ public class TestGestioneOrdine {
 		
 		
 		System.out.println("-----------testAggiungiArticoloACategoria PASSED----_");
+		
+	}
+
+	private static void testAggiungiCategoriaAArticolo(ArticoloService articoloService, CategoriaService categoriaService) throws Exception{
+		System.out.println("-----------testAggiungiCategoriaAArticolo PASSED----_");
+		
+		//Mi predno un ordine e collego i due
+		Categoria daCollegare = categoriaService.caricaSingoloElemento(2L);
+		//Mi creo un nuovo articolo e lo inserisco
+		Articolo daCollegareArt = articoloService.caricaSingoloArticolo(1L);
+		
+		
+		
+		
+		//Mi predno un ordine e collego i due
+		articoloService.aggiungiCategoria(daCollegareArt, daCollegare);
+		
+	
+		
+		System.out.println("-----------testAggiungiCategoriaAArticolo PASSED----_");
 		
 	}
 
