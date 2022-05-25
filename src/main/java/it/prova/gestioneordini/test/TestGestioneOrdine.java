@@ -2,6 +2,7 @@ package it.prova.gestioneordini.test;
 
 import it.prova.gestioneordini.dao.EntityManagerUtil;
 import it.prova.gestioneordini.model.Articolo;
+import it.prova.gestioneordini.model.Categoria;
 import it.prova.gestioneordini.model.Ordine;
 import it.prova.gestioneordini.service.ArticoloService;
 import it.prova.gestioneordini.service.CategoriaService;
@@ -30,7 +31,9 @@ public class TestGestioneOrdine {
 			
 			//testAggiungiArticoloAOrdine(articoloServiceInstance,ordineServiceInstance);
 			
-			testRimuoviArticoloAOrdine(articoloServiceInstance,ordineServiceInstance);
+			//testRimuoviArticoloAOrdine(articoloServiceInstance,ordineServiceInstance);
+			
+			testAggiungiArticoloACategoria(articoloServiceInstance,categoriaServiceInstance);
 			
 		
 		
@@ -122,6 +125,30 @@ public class TestGestioneOrdine {
 		
 		
 		System.out.println("-----------testRimuoviArticoloAOrdine PASSED----_");
+	}
+	
+	private static void testAggiungiArticoloACategoria(ArticoloService articoloService, CategoriaService categoriaService) throws Exception{
+		System.out.println("-----------testAggiungiArticoloACategoria PASSED----_");
+		
+		//Mi predno un ordine e collego i due
+		Categoria daCollegare = new Categoria("GGG", "ABZ");
+		categoriaService.inserisciNuovo(daCollegare);
+		if(daCollegare.getId() < 1 )
+			throw new RuntimeException();
+		//Mi creo un nuovo articolo e lo inserisco
+		Articolo daCollegareArt = articoloService.caricaSingoloArticolo(1L);
+		
+		
+		
+		
+		//Mi predno un ordine e collego i due
+		
+		
+		categoriaService.aggiungiArticolo(daCollegare, daCollegareArt);
+		
+		
+		System.out.println("-----------testAggiungiArticoloACategoria PASSED----_");
+		
 	}
 
 }

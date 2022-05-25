@@ -4,6 +4,7 @@ import java.util.List;
 
 import it.prova.gestioneordini.dao.ArticoloDAO;
 import it.prova.gestioneordini.model.Articolo;
+import it.prova.gestioneordini.model.Categoria;
 
 public interface ArticoloService {
 	// Implemento firma metodi crud
@@ -26,4 +27,6 @@ public interface ArticoloService {
 	// per injection
 	public void setArticoloDAO(ArticoloDAO articoloDAO);
 
+	public void aggiungiCategoria(Articolo articolo, Categoria categoria) throws Exception;
+	
 }
