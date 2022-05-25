@@ -14,5 +14,8 @@ public interface OrdineDAO extends IBaseDAO<Ordine>{
 	
 	//voglio tutti gli ordini effetuati data una categoria (Cateogoria)
 	public List<Ordine> findAllByCategoria(Categoria categoriaInstance);
+	
+	//voglko il piu recente ordine in temrini di spedizione relativo ad una categoria data in input
+	public Ordine findOrdineConSpedizionePiuRecenteByCategoria(Categoria categoria) throws Exception;
 
 }

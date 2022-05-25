@@ -29,4 +29,6 @@ public interface ArticoloService {
 
 	public void aggiungiCategoria(Articolo articolo, Categoria categoria) throws Exception;
 	
+	public Integer prendiSommaDataCategoria(Categoria categoria) throws Exception;
+	
 }

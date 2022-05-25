@@ -27,5 +27,9 @@ public interface OrdineService {
 	public void rimuoviArticolo(Ordine ordineInstance, Articolo articoloInstance) throws Exception;
 	
 	public List<Ordine> trovaTuttiDataCategoria(Categoria categoriaInstance) throws Exception;
+	
+	//TODO
+	//Trova ordine con data piu vicina
+	public Ordine trovaOrdineConDataSpedizionePiuVicinaDataCategoria(Categoria categoria) throws Exception;
 
 }

@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import it.prova.gestioneordini.model.Articolo;
+import it.prova.gestioneordini.model.Categoria;
 
 public class ArticoloDAOImpl implements ArticoloDAO {
 
@@ -60,4 +61,16 @@ public class ArticoloDAOImpl implements ArticoloDAO {
 		return query.getResultList().stream().findFirst().orElse(null);
 	}
 
+	@Override
+	public Integer getSommaByCategoria(Categoria categoria) throws Exception {
+		int conta = 0;
+		TypedQuery<Articolo> query = entityManager.createQuery("select a from Articolo a  join a.categorie c where c.id = :idC", Articolo.class);
+		query.setParameter("idC", categoria.getId());
+		List<Articolo> result = query.getResultList();
+		for(Articolo articoloItem : result ) {
+			conta += articoloItem.getPrezzoSingolo();
+		}
+		return conta;
+		
+	}
 }

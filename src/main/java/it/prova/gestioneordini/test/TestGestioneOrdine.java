@@ -1,6 +1,8 @@
 package it.prova.gestioneordini.test;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import it.prova.gestioneordini.dao.EntityManagerUtil;
@@ -38,9 +40,14 @@ public class TestGestioneOrdine {
 			// testAggiungiArticoloACategoria(articoloServiceInstance,categoriaServiceInstance);
 			//testAggiungiCategoriaAArticolo(articoloServiceInstance, categoriaServiceInstance);
 			
-			testtrovaTuttiOrdiniDataCategoria(ordineServiceInstance, categoriaServiceInstance);
+			//testtrovaTuttiOrdiniDataCategoria(ordineServiceInstance, categoriaServiceInstance);
 			
-			testTrovaTutteCategorieDatoOrdine(ordineServiceInstance, categoriaServiceInstance);
+			//testTrovaTutteCategorieDatoOrdine(ordineServiceInstance, categoriaServiceInstance);
+			
+			testTrovaSommaArticoliDataCategoria(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
+			
+			testTrovaOrdineConDataSpedizionePiuVicinaDataCategoria(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
+			
 			
 
 		} catch (Exception e) {
@@ -199,5 +206,47 @@ public class TestGestioneOrdine {
 
 	}
 	
+	private static void testTrovaSommaArticoliDataCategoria(ArticoloService articolo, CategoriaService categoria, OrdineService ordine) throws Exception{
+		
+		System.out.println("_------------testTrovaSommaArticoliDataCategoria------------_");
+		Ordine ordineDaInserire = new Ordine("Lucia", "Via Dal Paparazzo", null);
+		ordine.inserisciNuovo(ordineDaInserire);
+		
+		Articolo daInserire = new Articolo();
+		daInserire.setNumeroSeriale("HAIHU");
+		daInserire.setDescrizione("CARINO");
+		daInserire.setPrezzoSingolo(300);
+		daInserire.setOrdine(ordineDaInserire);
+		
+		
+		
+		//Chiamo mi creo categoria
+		Categoria daCollegare = new Categoria("PROVA", "ABZ");
+		
+		daInserire.getCategorie().add(daCollegare);
+		articolo.inserisci(daInserire);
+		//Colletgo cateogria a articolo
+		
+		Integer result = articolo.prendiSommaDataCategoria(daCollegare);
+		System.out.println(result);
+		
+		System.out.println("_------------testTrovaSommaArticoliDataCategoria------------_ PASSED");
+	}
 	
+	private static void testTrovaOrdineConDataSpedizionePiuVicinaDataCategoria(ArticoloService articolo, CategoriaService categoria, OrdineService ordine) throws Exception {
+		System.out.println("testTrovaOrdineConDataSpedizionePiuVicinaDataCategoria");
+		
+		Categoria daCercare = categoria.caricaSingoloElemento(24L);
+		
+		Ordine result = ordine.trovaOrdineConDataSpedizionePiuVicinaDataCategoria(daCercare);
+		
+		System.out.println(result);
+		
+		System.out.println("testTrovaOrdineConDataSpedizionePiuVicinaDataCategoria");
+		
+		
+	
+		
+	
+	}
 }

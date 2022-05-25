@@ -1,9 +1,13 @@
 package it.prova.gestioneordini.dao;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+
+import org.hibernate.type.LocalDateTimeType;
 
 import it.prova.gestioneordini.model.Categoria;
 import it.prova.gestioneordini.model.Ordine;
@@ -65,20 +69,30 @@ public class OrdineDAOImpl implements OrdineDAO {
 
 	@Override
 	public List<Ordine> findAllByCategoria(Categoria categoriaInstance) {
-		TypedQuery<Ordine> query = entityManager.createQuery("select o from Ordine o join o.articoli a join a.categorie c where c.id = :cat", Ordine.class);
+		TypedQuery<Ordine> query = entityManager.createQuery(
+				"select o from Ordine o join o.articoli a join a.categorie c where c.id = :cat", Ordine.class);
 		query.setParameter("cat", categoriaInstance.getId());
 		return query.getResultList();
 	}
 
+	@Override
+	public Ordine findOrdineConSpedizionePiuRecenteByCategoria(Categoria categoria) throws Exception {
+		TypedQuery<Ordine> query = entityManager.createQuery(
+				"select o from Ordine o join o.articoli a join a.categorie c where c.id = :idC", Ordine.class);
+		query.setParameter("idC", categoria.getId());
+
+		List<Ordine> result = query.getResultList();
+
+		Date confronto = new SimpleDateFormat("dd/MM/yyyy").parse("24/09/2010");
+		Ordine resultFinale = null;
+		for (Ordine ordineItem : result) {
+			if (ordineItem.getDataSpedizione().after(confronto))
+				confronto = ordineItem.getDataSpedizione();
+			resultFinale = ordineItem;
+
+		}
+		return resultFinale;
+
+	}
+
 }
-
-
-
-
-
-
-
-
-
-
-
