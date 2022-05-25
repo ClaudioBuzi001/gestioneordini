@@ -21,6 +21,12 @@ public class TestGestioneOrdine {
 			//TODO Modificare il file xml con crate
 			System.out.println("_-----------Inizio Batteria di Test-----------_");
 			
+			testInserimentoOrdine(ordineServiceInstance);
+			
+			System.out.println(ordineServiceInstance.listaTutti().size());
+			
+			testAggiornaOrdine(ordineServiceInstance);
+			
 			
 			
 		
@@ -53,6 +59,24 @@ public class TestGestioneOrdine {
 	}
 	
 	
+
+	private static void testAggiornaOrdine(OrdineService ordineServiceInstance) throws Exception {
+		System.out.println("---------------Inizio testAggiornaOrdine----------");
+		
+		//Ci prendiamo l ordine e lo modifiichiamo
+		Ordine ordineDaAggiornare = ordineServiceInstance.caricaSingoloElemento(1L);
+		
+		ordineDaAggiornare.setIndirizzoSpedizione("VIA San Giuorgio");
+		ordineServiceInstance.aggiorna(ordineDaAggiornare);
+		
+		
+		if(!ordineDaAggiornare.getIndirizzoSpedizione().equals("VIA San Giuorgio") )
+			throw new RuntimeException("testAggiornaOrdine FAILED-----------");
+		
+		System.out.println("-----------testAggiornaOrdine PASSED----_");
+		
+		
+	}
 
 }
 
