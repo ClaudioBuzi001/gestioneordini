@@ -28,9 +28,9 @@ public class TestGestioneOrdine {
 			
 			testAggiornaOrdine(ordineServiceInstance);
 			
-			testAggiungiArticoloAOrdine(articoloServiceInstance,ordineServiceInstance);
+			//testAggiungiArticoloAOrdine(articoloServiceInstance,ordineServiceInstance);
 			
-			
+			testRimuoviArticoloAOrdine(articoloServiceInstance,ordineServiceInstance);
 			
 		
 		
@@ -110,28 +110,18 @@ public class TestGestioneOrdine {
 	
 	
 	private static void testRimuoviArticoloAOrdine(ArticoloService articoloService, OrdineService ordineService) throws Exception{
-		System.out.println("-----------testAggiungiArticoloAOrdine PASSED----_");
+		System.out.println("-----------testRimuoviArticoloAOrdine iniziato----_");
 		
-		//Mi predno un ordine e collego i due
-		Ordine daCollegare = ordineService.caricaSingoloElemento(1L);
-		//Mi creo un nuovo articolo e lo inserisco
-		Articolo daInserire = new Articolo();
-		daInserire.setNumeroSeriale("HAIHU");
-		daInserire.setDescrizione("CARINO");
-		daInserire.setOrdine(daCollegare);
+		//Mi prendo l articolo creato prima 
+		Articolo daDissociare = articoloService.caricaSingoloArticolo(1L);
 		
-		articoloService.inserisci(daInserire);
-		if(daInserire.getId() < 1)
-			throw new RuntimeException("ERRORE ARTICOLO NON ISERITO");
+		//e l ordine creato prima e li dissocio
+		Ordine ordineMaster = ordineService.caricaSingoloElemento(1L);
+		
+		ordineService.rimuoviArticolo(ordineMaster, daDissociare);
 		
 		
-		//Mi predno un ordine e collego i due
-		
-		
-		ordineService.aggiungiArticolo(daCollegare, daInserire);
-		
-		
-		System.out.println("-----------testAggiungiArticoloAOrdine PASSED----_");
+		System.out.println("-----------testRimuoviArticoloAOrdine PASSED----_");
 	}
 
 }
