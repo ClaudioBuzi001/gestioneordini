@@ -33,19 +33,16 @@ public class TestGestioneOrdine {
 
 			testAggiornaOrdine(ordineServiceInstance);
 
-			// testAggiungiArticoloAOrdine(articoloServiceInstance,ordineServiceInstance);
+			testAggiungiArticoloAOrdine(articoloServiceInstance, ordineServiceInstance);
 
-			// testRimuoviArticoloAOrdine(articoloServiceInstance,ordineServiceInstance);
+			testRimuoviArticoloAOrdine(articoloServiceInstance, ordineServiceInstance);
 
-			// testAggiungiArticoloACategoria(articoloServiceInstance,categoriaServiceInstance);
-			// testAggiungiCategoriaAArticolo(articoloServiceInstance,
-			// categoriaServiceInstance);
+			testAggiungiArticoloACategoria(articoloServiceInstance, categoriaServiceInstance);
+			testAggiungiCategoriaAArticolo(articoloServiceInstance, categoriaServiceInstance);
 
-			// testtrovaTuttiOrdiniDataCategoria(ordineServiceInstance,
-			// categoriaServiceInstance);
+			testtrovaTuttiOrdiniDataCategoria(ordineServiceInstance, categoriaServiceInstance);
 
-			// testTrovaTutteCategorieDatoOrdine(ordineServiceInstance,
-			// categoriaServiceInstance);
+			testTrovaTutteCategorieDatoOrdine(ordineServiceInstance, categoriaServiceInstance);
 
 			testTrovaSommaArticoliDataCategoria(articoloServiceInstance, categoriaServiceInstance,
 					ordineServiceInstance);
@@ -247,17 +244,14 @@ public class TestGestioneOrdine {
 		Categoria categoria = new Categoria("Macchinetta Del caffe", "CAFF02");
 		categoriaServiceInstance.inserisciNuovo(categoria);
 
-		
-
 		Date dataSpedizione = new SimpleDateFormat("dd-MM-yyyy").parse("23-05-2022");
 		Ordine ordineInstance = new Ordine("carlo forsi", "via Del Corso, 14", dataSpedizione);
 		ordineServiceInstance.inserisciNuovo(ordineInstance);
 
-		
 		Articolo articolo1 = new Articolo();
 		articolo1.setDescrizione("hgfvakhh");
 		articolo1.setDataInserimento(new SimpleDateFormat("dd-MM-yyyy").parse("14-10-2020"));
-		
+
 		articolo1.setOrdine(ordineInstance);
 		articoloServiceInstance.inserisci(articolo1);
 
@@ -267,23 +261,20 @@ public class TestGestioneOrdine {
 		Ordine ordineInstance1 = new Ordine("carlo forsi", "via Del Corso, 14", dataSpedizione);
 		ordineServiceInstance.inserisciNuovo(ordineInstance1);
 
-	
 		Articolo articolo2 = new Articolo();
-		
-		
+
 		articolo2.setOrdine(ordineInstance1);
 		articoloServiceInstance.inserisci(articolo2);
 
 		articoloServiceInstance.aggiungiCategoria(articolo2, categoria);
 
-		Ordine ordineConDataSpedPiùRecente = ordineServiceInstance.trovaOrdineConDataSpedizionePiuVicinaDataCategoria(categoria);
+		Ordine ordineConDataSpedPiùRecente = ordineServiceInstance
+				.trovaOrdineConDataSpedizionePiuVicinaDataCategoria(categoria);
 
 		System.out.println(ordineConDataSpedPiùRecente.getNomeDestinatario());
 
 		System.out.println("...........testOrdineConDataSpedizionePiùRecente PASSED.....");
 	}
-
-	
 
 	private static void testTrovaCodiciByFebbraio(ArticoloService articolo, CategoriaService categoria,
 			OrdineService ordine) throws Exception {
